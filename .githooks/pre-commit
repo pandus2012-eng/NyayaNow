@@ -1,15 +1,16 @@
-#!/bin/sh
-# Git pre-commit hook (bash)
-# Runs the Dart asset validator. Works with Git Bash and Unix shells.
+#!/bin/bash
+echo "🔍 Running Flutter asset validator..."
 
-echo "Running asset validator..."
-if command -v dart >/dev/null 2>&1; then
-  dart run tool/validate_assets.dart || exit 1
-elif command -v flutter >/dev/null 2>&1; then
-  flutter pub get >/dev/null 2>&1
-  dart run tool/validate_assets.dart || exit 1
-else
-  echo "Warning: dart/flutter not found in PATH; skipping asset validation."
+# Run the Dart validator script
+dart run tool/validate_assets.dart
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+  echo "❌ Asset validation failed. Commit aborted."
+  exit 1
 fi
 
+echo "✅ Asset validation passed. Continuing with commit."
 exit 0
+// This script validates that all font asset files referenced in pubspec.yaml exist.
+import 'dart:io';
