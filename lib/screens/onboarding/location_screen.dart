@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../home_screen.dart';
 
 class LocationScreen extends StatefulWidget {
-  static const route = '/location';
+  static const route = 'location';
   const LocationScreen({super.key});
 
   @override

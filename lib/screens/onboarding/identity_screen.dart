@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'location_screen.dart';
 
 class IdentityScreen extends StatefulWidget {
-  static const route = '/identity';
+  static const route = 'identity';
   const IdentityScreen({super.key});
 
   @override

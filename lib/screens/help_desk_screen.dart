@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HelpDeskScreen extends StatelessWidget {
-  static const route = '/helpdesk';
+  static const route = 'helpdesk';
   const HelpDeskScreen({super.key});
 
   @override

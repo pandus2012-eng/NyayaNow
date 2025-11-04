@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'onboarding/language_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const route = '/';
+  static const route = 'splash';
   const SplashScreen({super.key});
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AiChatScreen extends StatefulWidget {
-  static const route = '/ai';
+  static const route = 'ai';
   const AiChatScreen({super.key});
 
   @override

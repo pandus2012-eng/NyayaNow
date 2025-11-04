@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class KnowRightsScreen extends StatelessWidget {
-  static const route = '/rights';
+  static const route = 'rights';
   const KnowRightsScreen({super.key});
 
   @override
