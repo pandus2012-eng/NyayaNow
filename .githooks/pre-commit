@@ -1,0 +1,15 @@
+#!/bin/sh
+# Git pre-commit hook (bash)
+# Runs the Dart asset validator. Works with Git Bash and Unix shells.
+
+echo "Running asset validator..."
+if command -v dart >/dev/null 2>&1; then
+  dart run tool/validate_assets.dart || exit 1
+elif command -v flutter >/dev/null 2>&1; then
+  flutter pub get >/dev/null 2>&1
+  dart run tool/validate_assets.dart || exit 1
+else
+  echo "Warning: dart/flutter not found in PATH; skipping asset validation."
+fi
+
+exit 0
