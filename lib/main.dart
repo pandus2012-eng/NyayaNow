@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'providers/locale_provider.dart';
 
 import 'screens/splash_screen.dart';
 import 'screens/onboarding/language_screen.dart';
@@ -12,7 +16,12 @@ import 'screens/help_desk_screen.dart';
 import 'screens/profile_screen.dart';
 
 void main() {
-  runApp(const NyayaNowApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LocaleProvider(),
+      child: const NyayaNowApp(),
+    ),
+  );
 }
 
 class NyayaNowApp extends StatelessWidget {
@@ -32,13 +41,26 @@ class NyayaNowApp extends StatelessWidget {
       textTheme: GoogleFonts.poppinsTextTheme(ThemeData(brightness: Brightness.dark).textTheme),
     );
 
+    final locale = context.watch<LocaleProvider>().locale;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'NyayaNow',
       themeMode: ThemeMode.system,
       theme: baseLight,
       darkTheme: baseDark,
-  home: const SplashScreen(),
+      locale: locale,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('kn'),
+        Locale('hi'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: const SplashScreen(),
       routes: {
         SplashScreen.route: (_) => const SplashScreen(),
         LanguageScreen.route: (_) => const LanguageScreen(),
