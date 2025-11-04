@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/splash_screen.dart';
 import 'screens/onboarding/language_screen.dart';
 import 'screens/onboarding/identity_screen.dart';
@@ -11,26 +12,63 @@ import 'screens/profile_screen.dart';
 import 'theme/locale_theme.dart';
 
 void main() {
-  runApp(const NyayaNowApp());
+  runApp(const NyayaApp());
 }
 
-class NyayaNowApp extends StatelessWidget {
-  const NyayaNowApp({super.key});
+class NyayaApp extends StatefulWidget {
+  const NyayaApp({super.key});
+
+  @override
+  State<NyayaApp> createState() => _NyayaAppState();
+}
+
+class _NyayaAppState extends State<NyayaApp> {
+  Locale _locale = WidgetsBinding.instance.platformDispatcher.locale;
+
+  void _setLocale(String code) {
+    setState(() {
+      _locale = Locale(code);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Resolve a theme pair from the system locale. Using the
-    // platformDispatcher avoids requiring a BuildContext here.
-    final locale = WidgetsBinding.instance.platformDispatcher.locale;
-    final localeTheme = LocaleTheme.forLocale(locale);
+    final localeTheme = LocaleTheme.forLocale(_locale);
+
+    // Map a few language codes to local font families (fallbacks).
+    final fontFamily = _locale.languageCode == 'kn'
+        ? 'NotoSansKannada'
+        : _locale.languageCode == 'hi'
+            ? 'NotoSansDevanagari'
+            : null;
+
+    ThemeData withFont(ThemeData t, String? family) {
+      if (family == null) return t;
+      return t.copyWith(
+        textTheme: t.textTheme.apply(fontFamily: family),
+        primaryTextTheme: t.primaryTextTheme.apply(fontFamily: family),
+      );
+    }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'NyayaNow',
-  themeMode: ThemeMode.system,
-  theme: localeTheme.light,
-  darkTheme: localeTheme.dark,
-      initialRoute: SplashScreen.route,
+      themeMode: ThemeMode.system,
+  theme: withFont(localeTheme.light, fontFamily),
+  darkTheme: withFont(localeTheme.dark, fontFamily),
+      locale: _locale,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('kn'),
+        Locale('hi'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      // Start the app at the language selection so users can pick fonts/locales.
+      home: LanguageScreen(onPick: _setLocale),
       routes: {
         SplashScreen.route: (_) => const SplashScreen(),
         LanguageScreen.route: (_) => const LanguageScreen(),
