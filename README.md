@@ -1,27 +1,16 @@
-# NyayaNow (Flutter Starter)
+# nyayanow
 
-This is a ready-to-run Flutter starter for NyayaNow with:
-- Splash
-- Onboarding (Language, Identity, Location)
-- Home Dashboard
-- AI Legal Assistant (mock)
-- Know Your Rights (static list)
-- Help Desk (placeholder)
-- Profile & Settings (placeholder)
+A new Flutter project.
 
-## Quick Start
+## Getting Started
 
-```bash
-# Option A) Use as complete project
-cd NyayaNow
-flutter pub get
-flutter run
+This project is a starting point for a Flutter application.
 
-# Option B) Merge into a fresh project
-cd YOUR_WORKSPACE
-flutter create nyayanow
-cd nyayanow
-# Replace lib/ and pubspec.yaml with those from this starter, then:
-flutter pub get
-flutter run
-```
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

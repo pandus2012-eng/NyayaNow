@@ -1,35 +1,52 @@
 import 'package:flutter/material.dart';
-import 'identity_screen.dart';
+import 'package:provider/provider.dart';
+import '../../providers/locale_provider.dart';
 
-class LanguageScreen extends StatelessWidget {
-  static const route = 'language';
-  const LanguageScreen({super.key});
+class LanguageSelectionScreen extends StatelessWidget {
+  const LanguageSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final langs = ['English', 'ಕನ್ನಡ (Kannada)', 'हिन्दी (Hindi)'];
+    final localeProvider = context.read<LocaleProvider>();
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Choose Language')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
+      appBar: AppBar(title: const Text('Select Language')),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Select your preferred language:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 12),
-            ...langs.map((l) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: OutlinedButton(
-                onPressed: () => Navigator.pushNamed(context, IdentityScreen.route),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  child: Text(l),
-                ),
-              ),
-            )),
+            _langButton(context, 'English', 'en', localeProvider),
+            const SizedBox(height: 20),
+            _langButton(context, 'ಕನ್ನಡ (Kannada)', 'kn', localeProvider),
+            const SizedBox(height: 20),
+            _langButton(context, 'हिन्दी (Hindi)', 'hi', localeProvider),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _langButton(
+    BuildContext context,
+    String label,
+    String code,
+    LocaleProvider provider,
+  ) {
+    return ElevatedButton(
+      onPressed: () async {
+        provider.setLocale(Locale(code)); // call function correctly
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Language changed to ${code.toUpperCase()}'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(200, 50),
+        textStyle: const TextStyle(fontSize: 18),
+      ),
+      child: Text(label),
     );
   }
 }
