@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'core/i18n/app_localizations.dart';
-import 'core/themes/app_theme.dart';
 import 'core/routing/app_router.dart';
 import 'providers/locale_provider.dart';
 
@@ -18,7 +17,6 @@ class NyayaNowApp extends StatelessWidget {
       create: (_) => LocaleProvider(),
       child: Consumer<LocaleProvider>(
         builder: (_, provider, __) {
-          final code = provider.locale?.languageCode;
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'NyayaNow',
@@ -30,7 +28,16 @@ class NyayaNowApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
-            theme: AppTheme.lightTheme(localeCode: code),
+            theme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: Colors.deepPurple,
+              fontFamily: () {
+                final lang = provider.locale?.languageCode;
+                if (lang == 'kn') return 'NotoSansKannada';
+                if (lang == 'hi') return 'NotoSansDevanagari';
+                return null;
+              }(),
+            ),
             initialRoute: AppRoutes.splash,
             routes: AppRoutes.map,
           );
